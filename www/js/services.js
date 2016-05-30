@@ -16,6 +16,22 @@ angular.module('app.services', [])
     };
 })
 
+.factory('Guthaben', function ($http) {
+
+    return {
+        addDebt: function (from, to, val) {
+            console.log('send');
+            console.log(from);
+            console.log(to);
+            console.log(val);
+            return $http.post('http://fhnw.temper.li/debt/add', { params: { fromx:from, tox:to, valuex:val } })
+        }
+        // pay: function (id) {
+        //     return $http.post('http://fhnw.temper.li/debt/pay', { params: {id:id}})
+        // }
+    };
+})
+
 .service('BlankService', [function(){
 
 }]);
