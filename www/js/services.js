@@ -1,8 +1,27 @@
 angular.module('app.services', [])
 
-.factory('BlankFactory', [function(){
+.factory('Register', function($http){
 
-}])
+    return {
+        register: function (name, phone) {
+            return $http({
+                method: 'POST',
+                url: 'http://fhnw.temper.li/user/add',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {
+                    phone: phone,
+                    name: name
+                }
+            });
+        }
+    }
+})
 
 .factory('Schulden', function ($http, $rootScope, $stateParams) {
 
@@ -19,20 +38,38 @@ angular.module('app.services', [])
 .factory('Guthaben', function ($http) {
 
     return {
+        getAllFrom: function (id) {
+            return $http.get('http://fhnw.temper.li/get-debts-from', { params: { id:id } })
+        },
         addDebt: function (from, to, val) {
-            console.log('send');
-            console.log(from);
-            console.log(to);
-            console.log(val);
-            return $http.post('http://fhnw.temper.li/debt/add', { params: { fromx:from, tox:to, valuex:val } })
+            return $http({
+                method: 'POST',
+                url: 'http://fhnw.temper.li/debt/add',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {
+                    fromx: from,
+                    tox: to,
+                    valuex: val
+                }
+            });
         }
-        // pay: function (id) {
-        //     return $http.post('http://fhnw.temper.li/debt/pay', { params: {id:id}})
-        // }
     };
 })
 
-.service('BlankService', [function(){
-
+.service('localStorageService', [function() {
+    return {
+        set: function (key, value) {
+            window.localStorage.setItem(key, value);
+        },
+        get: function (key) {
+            return window.localStorage.getItem(key);
+        }
+    };
 }]);
 
