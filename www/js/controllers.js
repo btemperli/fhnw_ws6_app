@@ -7,8 +7,16 @@ angular.module('app.controllers', [])
 
     Schulden.getAllTo(id).success(function (response) {
         console.log(response);
-        // $scope.chats = response;
+        $scope.schuldens = response.data;
     });
+
+    $scope.pay = function(schulden) {
+        console.log('Pay schulden: ' + schulden.id);
+        Schulden.pay(schulden.id).success(function (response) {
+            console.log(response);
+            $scope.schuldens.splice($scope.schuldens.indexOf(schulden), 1);
+        });
+    };
 
     // $scope.addSchulden = function () {
     //
@@ -27,7 +35,6 @@ angular.module('app.controllers', [])
 
 
     Guthaben.getAllFrom(id).success(function (response) {
-        console.log(response);
         $scope.guthabens = response.data;
     });
 

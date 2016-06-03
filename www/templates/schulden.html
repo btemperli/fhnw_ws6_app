@@ -12,7 +12,17 @@
         <form id="schulden-form5" class="list ">
             <ion-checkbox>Leandra / CHF 55.20</ion-checkbox>
         </form>
-        <button id="schulden-button2" class=" button button-positive  button-block ">Bezahlen!</button>
+        <ion-list>
+            <ion-item ng-repeat="schulden in schuldens"
+                      item="schulden"
+                      data-ng-schulden-id="{{ schulden.id }}"
+                      class="">
+                ({{ schulden.id }}) {{ schulden.from_user.name }} -  CHF {{ schulden.valuex }}
+                <button class="button button-small button-right button-balanced icon-left ion-social-usd" ng-click="pay(schulden)">
+                    pay
+                </button>
+            </ion-item>
+        </ion-list>
         <div class="spacer" style="width: 300px; height: 137px;"></div>
         <div class="">
             <img src="img/add_Icon.png" width="10%" height="auto" style="display: block; margin-left: auto;">

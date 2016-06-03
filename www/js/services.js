@@ -30,7 +30,20 @@ angular.module('app.services', [])
             return $http.get('http://fhnw.temper.li/get-debts-to', { params: { id:id } })
         },
         pay: function (id) {
-            return $http.post('http://fhnw.temper.li/debt/pay', { params: {id:id}})
+            return $http({
+                method: 'POST',
+                url: 'http://fhnw.temper.li/debt/pay',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {
+                    id: id
+                }
+            });
         }
     };
 })
