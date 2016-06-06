@@ -57,7 +57,7 @@ angular.module('app.services', [])
         addDebt: function (from, to, val) {
             return $http({
                 method: 'POST',
-                url: 'http://fhnw.temper.li/debt/add',
+                url: 'http://fhnw.temper.li/debt/add-phone',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 transformRequest: function(obj) {
                     var str = [];

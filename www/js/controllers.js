@@ -1,9 +1,10 @@
 angular.module('app.controllers', [])
 
-.controller('schuldenCtrl', function($scope, Schulden, localStorageService) {
+.controller('schuldenCtrl', function($scope, $ionicModal, Schulden, Guthaben, Register, localStorageService) {
 
     // first: get userId
-    var id = getUserId(localStorageService);
+    var id = getUserId(localStorageService, Register, $ionicModal, $scope);
+
 
     Schulden.getAllTo(id).success(function (response) {
         console.log(response);
@@ -18,19 +19,37 @@ angular.module('app.controllers', [])
         });
     };
 
-    // $scope.addSchulden = function () {
-    //
-    // };
+    $scope.addSchulden = function() {
+        $ionicModal.fromTemplateUrl('templates/schulden-modal.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal = modal;
+            $scope.modal.show();
+        });
+
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
+
+        $scope.addGuthaben = function(guthaben) {
+            var phone = getUserPhone(localStorageService);
+            Guthaben.addDebt(guthaben.phone, phone, guthaben.value).success(function (response) {
+                console.log(response);
+                $scope.modal.hide();
+            });
+        };
+    };
 })
    
 .controller('statistikenCtrl', function($scope) {
 
 })
       
-.controller('guthabenCtrl', function($scope, Guthaben, Register, localStorageService) {
+.controller('guthabenCtrl', function($scope, $ionicModal, Guthaben, Register, localStorageService) {
 
     // first: get userId
-    var id = getUserId(localStorageService, Register);
+    var id = getUserId(localStorageService, Register, $ionicModal, $scope);
     $scope.guthabens = [];
 
 
@@ -39,27 +58,67 @@ angular.module('app.controllers', [])
     });
 
     $scope.addGuthaben = function() {
-        var from = 2;
-        var value = 20.4;
-        
-        Guthaben.addDebt(from, id, value).success(function (response) {
-            console.log(response);
+        $ionicModal.fromTemplateUrl('templates/guthaben-modal.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal = modal;
+            $scope.modal.show();
         });
+
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
+
+        $scope.addGuthaben = function(guthaben) {
+            var phone = getUserPhone(localStorageService);
+            console.log(phone);
+            console.log(guthaben.phone);
+            Guthaben.addDebt(phone, guthaben.phone, guthaben.value).success(function (response) {
+                console.log(response);
+                $scope.modal.hide();
+            });
+        };
     };
 });
 
-function getUserId(localStorageService, Register) {
-    var key = 'user-id';
+function getUserId(localStorageService, Register, $ionicModal, $scope) {
+    var userKey = 'user-id';
+    var phoneKey = 'user-phone';
+    
+    if (localStorageService.get(userKey) === null) {
 
-    console.log('get user id.');
-    if (localStorageService.get(key) === null) {
-        
-        Register.register('tester', '0791112233').success(function (response) {
-            console.log(response);
-
-            localStorageService.set(key, response.data.id);
+        $ionicModal.fromTemplateUrl('templates/register-modal.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal = modal;
+            console.log($scope.modal);
+            $scope.modal.show();
         });
+
+        $scope.openModal = function() {
+            $scope.modal.show();
+        };
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
+        
+        $scope.registerUser = function(user) {
+            
+            Register.register(user.name, user.phone).success(function (response) {
+                localStorageService.set(userKey, response.data.id);
+                localStorageService.set(phoneKey, response.data.phone);
+            });
+
+            $scope.modal.hide();
+        };
     }
 
-    return localStorageService.get(key);
+    return localStorageService.get(userKey);
+}
+
+function getUserPhone(localStorageService) {
+    var phoneKey = 'user-phone';
+    return localStorageService.get(phoneKey);
 }
