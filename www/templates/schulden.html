@@ -1,8 +1,12 @@
-<ion-view title="Schulden" hide-nav-bar="true" hide-back-button="true" id="page2" style="background-color:#92A1F3;" class=" ">
+<ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Schulden</h1>
+    <button class="button button-clear button-primary" ng-click="addSchulden()">Add</button>
+</ion-header-bar>
+<ion-view title="Schulden" hide-nav-bar="true" hide-back-button="true" id="page2" style="background-color:#5471EE;" class=" ">
     <ion-content padding="true" class="manual-ios-statusbar-padding">
-        <div class="">
-            <img src="img/refresh_ICon.png" width="10%" height="auto" style="display: block; margin-left: auto;">
-        </div>
+        <!--<div class="">
+            <img src="img/refresh_ICon.png" width="10%" height="auto" style="display: block; margin-left: auto; margin-bottom: 10px;">
+        </div>-->
         <ion-list>
             <ion-item ng-repeat="schulden in schuldens"
                       item="schulden"
@@ -15,8 +19,8 @@
             </ion-item>
         </ion-list>
         <div class="spacer" style="width: 300px; height: 137px;"></div>
-        <div class="">
-            <img src="img/add_Icon.png" ng-click="addSchulden()" width="10%" height="auto" style="display: block; margin-left: auto;">
-        </div>
-    </ion-content>
-</ion-view>
+        <!-- <div class="">
+             <img src="img/add_Icon.png" ng-click="addSchulden()" width="10%" height="auto" style="display: block; margin-left: auto;">
+         </div>-->
+     </ion-content>
+ </ion-view>
