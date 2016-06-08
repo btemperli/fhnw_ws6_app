@@ -19,6 +19,17 @@ angular.module('app.controllers', [])
         });
     };
 
+    $scope.refreshSchulden = function () {
+        console.log('refresh Schulden!');
+        Guthaben.getAllFrom(id).success(function (response) {
+            console.log(response);
+            $scope.guthabens = response.data;
+        }).finally(function() {
+            // Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+
     $scope.addSchulden = function() {
         $ionicModal.fromTemplateUrl('templates/schulden-modal.html', {
             scope: $scope,
@@ -60,6 +71,17 @@ angular.module('app.controllers', [])
     Guthaben.getAllFrom(id).success(function (response) {
         $scope.guthabens = response.data;
     });
+
+    $scope.refreshGuthaben = function () {
+        console.log('refresh Guthaben!');
+        Guthaben.getAllFrom(id).success(function (response) {
+            console.log(response);
+            $scope.guthabens = response.data;
+        }).finally(function() {
+            // Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
 
     $scope.addGuthaben = function() {
         $ionicModal.fromTemplateUrl('templates/guthaben-modal.html', {

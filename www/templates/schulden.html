@@ -4,9 +4,10 @@
 </ion-header-bar>
 <ion-view title="Schulden" hide-nav-bar="true" hide-back-button="true" id="page2" style="background-color:#5471EE;" class=" ">
     <ion-content padding="true" class="manual-ios-statusbar-padding">
-        <!--<div class="">
-            <img src="img/refresh_ICon.png" width="10%" height="auto" style="display: block; margin-left: auto; margin-bottom: 10px;">
-        </div>-->
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="refreshSchulden()">
+        </ion-refresher>
         <ion-list>
             <ion-item ng-repeat="schulden in schuldens"
                       item="schulden"
@@ -18,9 +19,5 @@
                 </button>
             </ion-item>
         </ion-list>
-        <div class="spacer" style="width: 300px; height: 137px;"></div>
-        <!-- <div class="">
-             <img src="img/add_Icon.png" ng-click="addSchulden()" width="10%" height="auto" style="display: block; margin-left: auto;">
-         </div>-->
      </ion-content>
  </ion-view>
