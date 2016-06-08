@@ -96,7 +96,7 @@ angular.module('app.controllers', [])
             $scope.modal.hide();
         };
 
-        $scope.addGuthaben = function(guthaben) {
+        $scope.addGuthabenFinal = function(guthaben) {
             var phone = getUserPhone(localStorageService);
             console.log(phone);
             console.log(guthaben.phone);
