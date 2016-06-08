@@ -36,6 +36,10 @@ angular.module('app.controllers', [])
             var phone = getUserPhone(localStorageService);
             Guthaben.addDebt(guthaben.phone, phone, guthaben.value).success(function (response) {
                 console.log(response);
+                Schulden.getAllTo(id).success(function (response) {
+                    console.log(response);
+                    $scope.schuldens = response.data;
+                });
                 $scope.modal.hide();
             });
         };
@@ -76,6 +80,9 @@ angular.module('app.controllers', [])
             console.log(guthaben.phone);
             Guthaben.addDebt(phone, guthaben.phone, guthaben.value).success(function (response) {
                 console.log(response);
+                Guthaben.getAllFrom(id).success(function (response) {
+                    $scope.guthabens = response.data;
+                });
                 $scope.modal.hide();
             });
         };
