@@ -56,11 +56,7 @@ angular.module('app.controllers', [])
         };
     };
 })
-   
-.controller('statistikenCtrl', function($scope) {
-
-})
-      
+    
 .controller('guthabenCtrl', function($scope, $ionicModal, Guthaben, Register, localStorageService) {
 
     // first: get userId
